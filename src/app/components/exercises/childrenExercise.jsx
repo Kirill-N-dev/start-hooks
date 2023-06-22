@@ -28,11 +28,9 @@ const ChildrenExercise = () => {
                 <code>React.Children.toArray</code>
             </p>
 
-            <Component value="компонент">
-                Интересно, куда идёт этот текст?
-            </Component>
-            <Component value="компонент">Текст-невидимка</Component>
-            <Component value="компонент">невидимка</Component>
+            <Component value="компонент" />
+            <Component value="компонент" />
+            <Component value="компонент" />
         </CollapseWrapper>
     );
 };

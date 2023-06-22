@@ -3,25 +3,17 @@ import CollapseWrapper from "../common/collapse";
 
 const UseRefExercise = () => {
     //
-    const ref = useRef({
-        styles: { height: 40, width: 60, color: "white" },
-        value: { value: "Блок" }
-    });
-
-    const [refCurrent, setRefurret] = useState(ref.current);
+    const ref = useRef();
     const [toggle, setToggle] = useState(false);
-
-    const handleClick = ({ target }) => {
-        //
+    const handleClick = () => {
         setToggle(!toggle);
 
         if (toggle === true) {
-            setRefurret(ref.current);
+            ref.current.style.cssText = `height: 40px; width: 60px; color: white`;
+            ref.current.firstElementChild.innerHTML = "Блок";
         } else {
-            setRefurret({
-                styles: { height: 150, width: 80, color: "white" },
-                value: { value: "text" }
-            });
+            ref.current.style.cssText = `height: 150px; width: 80px; color: white`;
+            ref.current.firstElementChild.innerHTML = "text";
         }
     };
 
@@ -37,9 +29,10 @@ const UseRefExercise = () => {
             </ul>
             <div
                 className="bg-primary d-flex flex-row justify-content-center align-items-center rounded"
-                style={refCurrent.styles}
+                style={{ height: 40, width: 60, color: "white" }}
+                ref={ref}
             >
-                <small>{refCurrent.value.value}</small>
+                <small>Блок</small>
             </div>
             <button className="btn btn-success" onClick={handleClick}>
                 Изменить стили

@@ -1,22 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
-import WithFunctions from "./withFunctions";
 
-// Макс! В задании сказано, что нижний - "принимает в себя", но не сказано, что всё это надо передавать,
-// я же не передал в строке 11, так как это не нужно для функционала. Если я всё правильно понимаю, что не факт
-const SimpleComponent = ({ onLogin, onLogOut, isAuth, onClick, text }) => {
-    // Установка HOC
-    const HOC = WithFunctions(SimpleComponent);
+const SimpleComponent = ({ onLogin, onLogOut, isAuth }) => {
+    // Реализация обновления кнопки после перезагрузки страницы
+    const handleClick = () => (isAuth ? onLogOut() : onLogin());
     //
-    return <HOC text={text} onClick={onClick} />;
+    return (
+        <>
+            <label htmlFor="ppp">Кнопка, реализованная HOC:</label>
+            <div>
+                <button
+                    className="btn btn-primary"
+                    style={{ width: 200, height: 80 }}
+                    onClick={handleClick}
+                    id="ppp"
+                >
+                    {isAuth ? "Выйти из системы" : "Войти"}
+                </button>
+            </div>
+        </>
+    );
 };
 
 SimpleComponent.propTypes = {
     onLogin: PropTypes.func,
     onLogOut: PropTypes.func,
-    isAuth: PropTypes.bool,
-    text: PropTypes.string,
-    onClick: PropTypes.func
+    isAuth: PropTypes.bool
 };
 
 export default SimpleComponent;

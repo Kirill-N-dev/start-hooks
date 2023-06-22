@@ -1,53 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
+import Card from "../common/Card";
 
-const withLogin = (SimpleComponent) => (/* { text, onClick } */) => {
-    let isAuth = localStorage.getItem("auth");
-    // Функции для ДЗ по ХОК
-    /* const [authStatus, setAuthStatus] = useState(false); */
-    const [text, setText] = useState("Войти");
-    //
+// HOC:
+const withFunctions = (SimpleComponent) => () => {
+    // Функции для передачи в SimpleComponent ниже
     const onLogin = () => {
-        /* setAuthStatus(true); */
-        isAuth = localStorage.setItem("auth", true);
-        setText("Выйти из системы");
+        localStorage.setItem("auth", true);
     };
     //
     const onLogOut = () => {
-        /* setAuthStatus(false); */
-        isAuth = localStorage.removeItem("auth");
-        setText("Войти");
-    };
-    //
-
-    const handleClick = () => {
-        if (isAuth === null) onLogin();
-        else onLogOut();
+        localStorage.removeItem("auth");
     };
     //
 
     return (
-        <>
-            <label htmlFor="ppp">
-                Кнопка, реализованная простыми кликами и стейтами в родителе:
-            </label>
-            <div>
-                <button
-                    className="btn btn-primary"
-                    style={{ width: 200, height: 80 }}
-                    onClick={handleClick}
-                    id="ppp"
-                >
-                    {text}
-                </button>
-            </div>
-        </>
+        <Card>
+            <SimpleComponent
+                isAuth={!!localStorage.getItem("auth")}
+                onLogin={onLogin}
+                onLogOut={onLogOut}
+            />
+        </Card>
     );
 };
 
-withLogin.propTypes = {
+withFunctions.propTypes = {
     text: PropTypes.string,
     onClick: PropTypes.func
 };
 
-export default withLogin;
+export default withFunctions;
